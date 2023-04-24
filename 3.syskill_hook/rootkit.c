@@ -4,6 +4,7 @@
 #include <linux/syscalls.h>
 #include <linux/kallsyms.h>
 #include <linux/version.h>
+#include <linux/uio.h>
 
 #include "ftrace_helper.h"
 
